@@ -29,6 +29,7 @@ st.markdown("""
     .stApp { background: #0E1117; }
     .metric-card { background: #161B22; border: 1px solid #21262D; border-radius: 12px; padding: 16px 20px; text-align: center; }
     .metric-label { font-size: 11px; color: #8B949E; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+    p, label, .stMarkdown, .stCaption, [data-testid="stMarkdownContainer"] p { color: #E6EDF3 !important; }
     .metric-value { font-size: 22px; font-weight: 700; font-family: 'DM Mono', monospace; color: #E6EDF3; }
     .metric-sub { font-size: 11px; color: #8B949E; margin-top: 4px; }
     .positive { color: #3FB950; } .negative { color: #F85149; } .neutral { color: #58A6FF; }
