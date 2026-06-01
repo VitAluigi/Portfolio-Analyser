@@ -1,10 +1,3 @@
-# =============================================================================
-# PORTFOLIO ANALYSIS APP - Streamlit
-# =============================================================================
-# pip install streamlit yfinance pandas numpy plotly openpyxl
-# streamlit run app.py
-# =============================================================================
-
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -641,7 +634,7 @@ def main():
     </p>""", unsafe_allow_html=True)
 
     # Tabs
-    t1, t2, t3, t4, t5 = st.tabs(["📊 Performance","🥧 Composizione","📉 Volatilità","📅 Periodi","🎲 Ottimizzazione"])
+    t1, t2, t3, t4, t5 = st.tabs(["Performance","Composizione","Volatilità","Periodi","Ottimizzazione"])
     with t1: tab_performance(db, m, bm_name, rf)
     with t2: tab_composizione(db, etf_cols, m)
     with t3: tab_volatilita(db, bm_name)
