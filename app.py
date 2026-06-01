@@ -26,7 +26,7 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap');
     html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
-    .stApp { background: #F8F9FA; }
+    .stApp { background: #0E1117; }
     .metric-card { background: #FFFFFF; border: 1px solid #21262D; border-radius: 12px; padding: 16px 20px; text-align: center; }
     .metric-label { font-size: 11px; color: #8B949E; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
     .metric-value { font-size: 22px; font-weight: 700; font-family: 'DM Mono', monospace; }
