@@ -267,7 +267,7 @@ def tab_composizione(db, etf_cols, m):
     fig_etf.update_xaxes(ticksuffix="%")
     c2.plotly_chart(fig_etf, use_container_width=True)
 
-    monthly = db["port_ret"].resample("M").apply(lambda x: (1+x).prod()-1)
+    monthly = db["port_ret"].resample("ME").apply(lambda x: (1+x).prod()-1)
     fig_m = go.Figure(go.Bar(
         x=[d.strftime("%b-%y") for d in monthly.index], y=monthly*100,
         marker_color=[C["portfolio"] if v>=0 else C["danger"] for v in monthly],
@@ -321,7 +321,7 @@ def tab_volatilita(db, bm_name):
     c2.plotly_chart(fig2, use_container_width=True)
 
     c3, c4 = st.columns(2)
-    monthly_vol = db["port_ret"].resample("M").std() * np.sqrt(252) * 100
+    monthly_vol = db["port_ret"].resample("ME").std() * np.sqrt(252) * 100
     fig3 = go.Figure(go.Bar(
         x=[d.strftime("%b-%y") for d in monthly_vol.index], y=monthly_vol,
         marker_color=[C["danger"] if v>15 else C["warning"] if v>8 else C["portfolio"] for v in monthly_vol],
