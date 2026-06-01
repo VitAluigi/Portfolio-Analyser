@@ -575,7 +575,7 @@ def main():
             is_sel = st.session_state.selected_bm == bm_key
             border = "#3FB950" if is_sel else "#21262D"
             bg = "#1a2e1a" if is_sel else "#161B22"
-            if col_ui.button(f"{bm['flag']}\n{bm_key}", key=f"bm_{bm_key}",
+            if col_ui.button(bm_key, key=f"bm_{bm_key}",
                              use_container_width=True):
                 st.session_state.selected_bm = bm_key
                 st.rerun()
