@@ -437,8 +437,8 @@ def tab_montecarlo(db, etf_cols, rf):
             with ui_col:
                 st.markdown(f"**{asset}**")
                 st.caption(f"Attuale: {curr_w}%")
-                mn = st.number_input("Min %", 0, 95, 0, 5, key=f"mn_{asset}")
-                mx = st.number_input("Max %", mn, 100, min(max(curr_w + 10, 20), 100), 5, key=f"mx_{asset}")
+                mn = st.number_input("Min %", 0, 95, 0, 1, key=f"mn_{asset}")
+                mx = st.number_input("Max %", mn, 100, min(max(curr_w + 10, 20), 100), 1, key=f"mx_{asset}")
                 bounds[asset] = (mn / 100, mx / 100)
 
     sum_mins = sum(v[0] for v in bounds.values())
