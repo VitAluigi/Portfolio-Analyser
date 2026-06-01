@@ -10,7 +10,6 @@ from plotly.subplots import make_subplots
 
 st.set_page_config(
     page_title="Portfolio Analyzer",
-    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -43,21 +42,21 @@ st.markdown("""
 
 # Constants
 BENCHMARKS = {
-    "S&P 500":      {"ticker": "^GSPC",     "flag": "🇺🇸", "rf_ticker": "^TNX",        "rf_name": "T-Note 10y",  "rf_fallback": 4.20},
-    "NASDAQ 100":   {"ticker": "^NDX",      "flag": "🇺🇸", "rf_ticker": "^TNX",        "rf_name": "T-Note 10y",  "rf_fallback": 4.20},
-    "FTSE MIB":     {"ticker": "FTSEMIB.MI","flag": "🇮🇹", "rf_ticker": "ITALY10YR=X", "rf_name": "BTP 10y",     "rf_fallback": 3.70},
-    "DAX":          {"ticker": "^GDAXI",    "flag": "🇩🇪", "rf_ticker": "^DE10YB=RR",  "rf_name": "Bund 10y",    "rf_fallback": 2.50},
-    "Euro Stoxx 50":{"ticker": "^STOXX50E", "flag": "🇪🇺", "rf_ticker": "^DE10YB=RR",  "rf_name": "Bund 10y",    "rf_fallback": 2.50},
-    "FTSE 100":     {"ticker": "^FTSE",     "flag": "🇬🇧", "rf_ticker": "^GB10YB=RR",  "rf_name": "Gilt 10y",    "rf_fallback": 4.30},
-    "Nikkei 225":   {"ticker": "^N225",     "flag": "🇯🇵", "rf_ticker": "^JP10YB=RR",  "rf_name": "JGB 10y",     "rf_fallback": 1.50},
-    "CAC 40":       {"ticker": "^FCHI",     "flag": "🇫🇷", "rf_ticker": "^FR10YB=RR",  "rf_name": "OAT 10y",     "rf_fallback": 3.20},
-    "Russell 2000": {"ticker": "^RUT",      "flag": "🇺🇸", "rf_ticker": "^TNX",        "rf_name": "T-Note 10y",  "rf_fallback": 4.20},
-    "MSCI World":   {"ticker": "URTH",      "flag": "🌍",  "rf_ticker": "^TNX",        "rf_name": "T-Note 10y",  "rf_fallback": 4.20},
+    "S&P 500":      {"ticker": "^GSPC", "rf_ticker": "^TNX", "rf_name": "T-Note 10y", "rf_fallback": 4.20},
+    "NASDAQ 100":   {"ticker": "^NDX", "rf_ticker": "^TNX", "rf_name": "T-Note 10y", "rf_fallback": 4.20},
+    "FTSE MIB":     {"ticker": "FTSEMIB.MI", "rf_ticker": "ITALY10YR=X", "rf_name": "BTP 10y", "rf_fallback": 3.70},
+    "DAX":          {"ticker": "^GDAXI", "rf_ticker": "^DE10YB=RR", "rf_name": "Bund 10y", "rf_fallback": 2.50},
+    "Euro Stoxx 50":{"ticker": "^STOXX50E", "rf_ticker": "^DE10YB=RR", "rf_name": "Bund 10y", "rf_fallback": 2.50},
+    "FTSE 100":     {"ticker": "^FTSE", "rf_ticker": "^GB10YB=RR",  "rf_name": "Gilt 10y", "rf_fallback": 4.30},
+    "Nikkei 225":   {"ticker": "^N225", "rf_ticker": "^JP10YB=RR",  "rf_name": "JGB 10y", "rf_fallback": 1.50},
+    "CAC 40":       {"ticker": "^FCHI", "rf_ticker": "^FR10YB=RR",  "rf_name": "OAT 10y", "rf_fallback": 3.20},
+    "Russell 2000": {"ticker": "^RUT", "rf_ticker": "^TNX", "rf_name": "T-Note 10y",  "rf_fallback": 4.20},
+    "MSCI World":   {"ticker": "URTH", "rf_ticker": "^TNX", "rf_name": "T-Note 10y",  "rf_fallback": 4.20},
 }
 
 C = {
     "portfolio": "#3FB950", "benchmark": "#58A6FF", "danger": "#F85149",
-    "warning": "#D29922",   "neutral":   "#8B949E", "surface": "#161B22",
+    "warning": "#D29922", "neutral": "#8B949E", "surface": "#161B22",
 }
 PIE_COLORS = ["#58A6FF","#3FB950","#BC8CFF","#D29922","#8B949E","#39D353","#7EE787","#FFA657","#FF7B72"]
 VOL_WINDOW = 30
@@ -111,15 +110,15 @@ def compute_features(df, bm_series, vol_window=VOL_WINDOW):
     port = df["Total"]
     combined = pd.concat([bm_series, port], axis=1).dropna()
     combined.columns = ["benchmark", "portfolio"]
-    combined["bm_ret"]   = combined["benchmark"].pct_change()
+    combined["bm_ret"] = combined["benchmark"].pct_change()
     combined["port_ret"] = combined["portfolio"].pct_change()
     combined = combined.dropna()
-    combined["bm_cum"]   = (1 + combined["bm_ret"]).cumprod() - 1
+    combined["bm_cum"] = (1 + combined["bm_ret"]).cumprod() - 1
     combined["port_cum"] = (1 + combined["port_ret"]).cumprod() - 1
-    combined["bm_vol"]   = combined["bm_ret"].rolling(vol_window).std() * np.sqrt(252)
+    combined["bm_vol"] = combined["bm_ret"].rolling(vol_window).std() * np.sqrt(252)
     combined["port_vol"] = combined["port_ret"].rolling(vol_window).std() * np.sqrt(252)
-    combined["bm_dd"]    = combined["benchmark"] / combined["benchmark"].cummax() - 1
-    combined["port_dd"]  = combined["portfolio"] / combined["portfolio"].cummax() - 1
+    combined["bm_dd"] = combined["benchmark"] / combined["benchmark"].cummax() - 1
+    combined["port_dd"] = combined["portfolio"] / combined["portfolio"].cummax() - 1
     etf_cols = [c for c in df.columns if c != "Total"]
     for col in etf_cols:
         combined[col] = df[col].reindex(combined.index).ffill()
@@ -129,21 +128,21 @@ def compute_metrics(db, rf):
     port = db["port_ret"].dropna()
     bm   = db["bm_ret"].dropna()
     def stats(r):
-        mu   = r.mean() * 252
-        vol  = r.std() * np.sqrt(252)
-        sh   = (mu - rf) / vol if vol > 0 else 0
+        mu = r.mean() * 252
+        vol = r.std() * np.sqrt(252)
+        sh = (mu - rf) / vol if vol > 0 else 0
         down = r[r < 0]
-        so   = (mu - rf) / (down.std() * np.sqrt(252)) if len(down) > 1 else 0
-        cum  = (1 + r).cumprod()
-        mdd  = float((cum / cum.cummax()).min() - 1)
-        ca   = mu / abs(mdd) if mdd < 0 else 0
+        so = (mu - rf) / (down.std() * np.sqrt(252)) if len(down) > 1 else 0
+        cum = (1 + r).cumprod()
+        mdd = float((cum / cum.cummax()).min() - 1)
+        ca  = mu / abs(mdd) if mdd < 0 else 0
         cagr = (1 + (1+r).prod()-1) ** (365/max(len(r),1)) - 1
         return dict(mu=mu, vol=vol, sharpe=sh, sortino=so, mdd=mdd,
                     calmar=ca, cagr=cagr, cum=(1+r).prod()-1,
                     skew=r.skew(), kurt=r.kurtosis())
     aligned = pd.concat([port, bm], axis=1).dropna()
     cov = aligned.cov()
-    beta  = cov.iloc[0,1] / cov.iloc[1,1] if cov.iloc[1,1] > 0 else 1
+    beta = cov.iloc[0,1] / cov.iloc[1,1] if cov.iloc[1,1] > 0 else 1
     alpha = (port.mean() - beta * bm.mean()) * 252
     return dict(port=stats(port), bm=stats(bm), beta=beta, alpha=alpha)
 
@@ -157,7 +156,7 @@ def split_periods(db):
             periods[str(yr)] = sub
     full = db.copy()
     full["port_cum"] = (1 + full["port_ret"]).cumprod() - 1
-    full["bm_cum"]   = (1 + full["bm_ret"]).cumprod() - 1
+    full["bm_cum"] = (1 + full["bm_ret"]).cumprod() - 1
     periods["Totale"] = full
     return periods
 
@@ -165,11 +164,11 @@ def split_periods(db):
 def tab_performance(db, m, bm_name, rf):
     cols = st.columns(5)
     kpis = [
-        ("Rend. cumulativo", m["port"]["cum"],    m["bm"]["cum"],    True),
-        ("CAGR",             m["port"]["cagr"],   m["bm"]["cagr"],   True),
-        ("Sharpe Ratio",     m["port"]["sharpe"], m["bm"]["sharpe"], False),
-        ("Max Drawdown",     m["port"]["mdd"],    m["bm"]["mdd"],    True),
-        ("Beta / Alpha",     m["beta"],           m["alpha"],        False),
+        ("Rend. cumulativo", m["port"]["cum"], m["bm"]["cum"], True),
+        ("CAGR", m["port"]["cagr"], m["bm"]["cagr"], True),
+        ("Sharpe Ratio", m["port"]["sharpe"], m["bm"]["sharpe"], False),
+        ("Max Drawdown", m["port"]["mdd"], m["bm"]["mdd"], True),
+        ("Beta / Alpha", m["beta"], m["alpha"], False),
     ]
     for col, (label, pv, bv, is_pct) in zip(cols, kpis):
         pf, pc = color_val(pv, is_pct)
@@ -180,12 +179,12 @@ def tab_performance(db, m, bm_name, rf):
         col.markdown(metric_html(label, pf, pc, bf, bc), unsafe_allow_html=True)
 
     st.markdown("---")
-    dates    = db.index
+    dates = db.index
     port_arr = db["port_cum"].values * 100
-    bm_arr   = db["bm_cum"].values * 100
+    bm_arr = db["bm_cum"].values * 100
 
     fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=dates, y=bm_arr,   line=dict(color=C["benchmark"], width=2, dash="dash"), name=bm_name))
+    fig1.add_trace(go.Scatter(x=dates, y=bm_arr, line=dict(color=C["benchmark"], width=2, dash="dash"), name=bm_name))
     fig1.add_trace(go.Scatter(x=dates, y=port_arr, line=dict(color=C["portfolio"], width=2), name="Portafoglio"))
     fig1.add_trace(go.Scatter(
         x=list(dates)+list(dates[::-1]),
@@ -273,9 +272,9 @@ def tab_composizione(db, etf_cols, m):
 
     c3, c4 = st.columns(2)
     port_r = db["port_ret"].dropna()*100
-    bm_r   = db["bm_ret"].dropna()*100
-    bins   = np.linspace(min(port_r.min(),bm_r.min()), max(port_r.max(),bm_r.max()), 50)
-    fig_d  = go.Figure()
+    bm_r = db["bm_ret"].dropna()*100
+    bins = np.linspace(min(port_r.min(),bm_r.min()), max(port_r.max(),bm_r.max()), 50)
+    fig_d = go.Figure()
     fig_d.add_trace(go.Histogram(x=port_r, xbins=dict(start=bins[0],end=bins[-1],size=bins[1]-bins[0]),
         marker_color=C["portfolio"], opacity=0.7, name=f"Portafoglio σ={port_r.std():.2f}%"))
     fig_d.add_trace(go.Histogram(x=bm_r, xbins=dict(start=bins[0],end=bins[-1],size=bins[1]-bins[0]),
@@ -286,11 +285,11 @@ def tab_composizione(db, etf_cols, m):
 
     c4.markdown("**Metriche di rischio**")
     c4.dataframe(pd.DataFrame({
-        "Metrica":    ["Sharpe","Sortino","Calmar","Max DD","Vol ann.","CAGR","Beta","Alpha ann."],
+        "Metrica": ["Sharpe","Sortino","Calmar","Max DD","Vol ann.","CAGR","Beta","Alpha ann."],
         "Portafoglio":[f"{m['port']['sharpe']:.2f}", f"{m['port']['sortino']:.2f}",
                        f"{m['port']['calmar']:.2f}", f"{m['port']['mdd']:.1%}",
-                       f"{m['port']['vol']:.1%}",    f"{m['port']['cagr']:.1%}",
-                       f"{m['beta']:.2f}",           f"{m['alpha']:+.1%}"],
+                       f"{m['port']['vol']:.1%}", f"{m['port']['cagr']:.1%}",
+                       f"{m['beta']:.2f}", f"{m['alpha']:+.1%}"],
     }), hide_index=True, use_container_width=True)
 
 # Tab 3: Volatilità
@@ -320,7 +319,7 @@ def tab_volatilita(db, bm_name):
         marker_color=[C["danger"] if v>15 else C["warning"] if v>8 else C["portfolio"] for v in monthly_vol],
         showlegend=False))
     fig3.add_hline(y=15, line=dict(color=C["danger"], dash="dash"), annotation_text="15%")
-    fig3.add_hline(y=8,  line=dict(color=C["warning"], dash="dash"), annotation_text="8%")
+    fig3.add_hline(y=8, line=dict(color=C["warning"], dash="dash"), annotation_text="8%")
     fig3.update_layout(**plotly_layout(300, "Volatilità Mensile Annualizzata (%)"))
     fig3.update_yaxes(ticksuffix="%")
     c3.plotly_chart(fig3, use_container_width=True)
@@ -341,12 +340,12 @@ def tab_periodi(db, bm_name, rf):
 
     cols = st.columns(len(period_names))
     for col, pname in zip(cols, period_names):
-        sub    = periods[pname]
+        sub = periods[pname]
         port_r = sub["port_ret"].dropna()
-        bm_r   = sub["bm_ret"].dropna()
-        cum_p  = (1+port_r).prod()-1
-        sh_p   = (port_r.mean()*252-rf)/(port_r.std()*np.sqrt(252)) if port_r.std()>0 else 0
-        alpha  = (port_r.mean()-bm_r.mean())*252
+        bm_r = sub["bm_ret"].dropna()
+        cum_p = (1+port_r).prod()-1
+        sh_p = (port_r.mean()*252-rf)/(port_r.std()*np.sqrt(252)) if port_r.std()>0 else 0
+        alpha = (port_r.mean()-bm_r.mean())*252
         pf, pc = color_val(cum_p)
         af, ac = color_val(alpha)
         col.markdown(f'''<div class="metric-card">
@@ -377,7 +376,7 @@ def tab_periodi(db, bm_name, rf):
 
     monthly = db["port_ret"].resample("M").apply(lambda x: (1+x).prod()-1)*100
     df_m = monthly.to_frame("ret")
-    df_m["year"]  = df_m.index.year
+    df_m["year"] = df_m.index.year
     df_m["month"] = df_m.index.month
     years = sorted(df_m["year"].unique())
     month_labels = ["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"]
@@ -410,17 +409,17 @@ def tab_montecarlo(db, etf_cols, rf):
         st.info("Servono almeno 2 asset per l'ottimizzazione.")
         return
     n_sims = st.slider("Numero simulazioni", 1000, 20000, 5000, 1000)
-    max_w  = st.slider("Peso massimo per asset (%)", 20, 80, 35, 5) / 100
+    max_w = st.slider("Peso massimo per asset (%)", 20, 80, 35, 5) / 100
     if not st.button("-> Lancia simulazione"):
         return
 
     with st.spinner("Simulazione in corso..."):
-        prices  = db[etf_cols].replace(0, np.nan).ffill().bfill()
+        prices = db[etf_cols].replace(0, np.nan).ffill().bfill()
         returns = prices.pct_change().replace([np.inf,-np.inf], np.nan).dropna()
         ret_mat = returns.values
-        N       = ret_mat.shape[1]
-        last    = prices.iloc[-1]
-        w_curr  = (last/last.sum()).values
+        N = ret_mat.shape[1]
+        last = prices.iloc[-1]
+        w_curr = (last/last.sum()).values
 
         def dirichlet_capped(n):
             for _ in range(200):
@@ -431,11 +430,11 @@ def tab_montecarlo(db, etf_cols, rf):
 
         def ptf_stats(w):
             daily = ret_mat @ w
-            ret   = float(daily.mean()*252)
-            vol   = float(daily.std()*np.sqrt(252))
-            cum   = np.cumprod(1+daily)
-            mdd   = float(np.min(cum/np.maximum.accumulate(cum))-1)
-            ca    = ret/abs(mdd) if mdd < -1e-6 else 99
+            ret = float(daily.mean()*252)
+            vol = float(daily.std()*np.sqrt(252))
+            cum = np.cumprod(1+daily)
+            mdd = float(np.min(cum/np.maximum.accumulate(cum))-1)
+            ca = ret/abs(mdd) if mdd < -1e-6 else 99
             return ret, vol, float((ret-rf)/vol if vol>0 else -99), ca
 
         results = []
@@ -472,7 +471,7 @@ def tab_montecarlo(db, etf_cols, rf):
             hovertemplate="Vol: %{x:.2f}%<br>Ret: %{y:.2f}%<extra></extra>"))
 
         for entry, label, color, symbol in [
-            (curr,    "Attuale",    "#8B949E", "circle"),
+            (curr, "Attuale", "#8B949E", "circle"),
             (best_sh, "Max Sharpe", "#3FB950", "star"),
             (best_ca, "Max Calmar", "#F8B73E", "diamond"),
         ]:
@@ -517,7 +516,7 @@ def tab_montecarlo(db, etf_cols, rf):
 def main():
     # Sidebar: solo upload + colonne
     with st.sidebar:
-        st.markdown("# 📊 Portfolio Analyzer")
+        st.markdown("# Portfolio Analyzer")
         st.markdown("---")
         uploaded = st.file_uploader("Carica il tuo file", type=["xlsx","xls","csv"],
             help="Excel o CSV con date e valori degli asset")
@@ -575,7 +574,7 @@ def main():
             bm = BENCHMARKS[bm_key]
             is_sel = st.session_state.selected_bm == bm_key
             border = "#3FB950" if is_sel else "#21262D"
-            bg     = "#1a2e1a" if is_sel else "#161B22"
+            bg = "#1a2e1a" if is_sel else "#161B22"
             if col_ui.button(f"{bm['flag']}\n{bm_key}", key=f"bm_{bm_key}",
                              use_container_width=True):
                 st.session_state.selected_bm = bm_key
@@ -586,8 +585,8 @@ def main():
                 f'{BENCHMARKS[bm_key]["rf_name"]}</div>',
                 unsafe_allow_html=True)
 
-    bm_name   = st.session_state.selected_bm
-    bm_info   = BENCHMARKS[bm_name]
+    bm_name = st.session_state.selected_bm
+    bm_info = BENCHMARKS[bm_name]
     bm_ticker = bm_info["ticker"]
 
     # Fetch RF
@@ -616,7 +615,7 @@ def main():
                 raw[c] = pd.to_numeric(raw[c], errors="coerce").replace(0,np.nan).ffill().bfill()
             raw["Total"] = raw[value_cols].sum(axis=1)
             start = raw.index.min().strftime("%Y-%m-%d")
-            end   = raw.index.max().strftime("%Y-%m-%d")
+            end = raw.index.max().strftime("%Y-%m-%d")
             bm_raw = load_benchmark(bm_ticker, start, end)
             db, etf_cols = compute_features(raw, bm_raw)
             m = compute_metrics(db, rf)
