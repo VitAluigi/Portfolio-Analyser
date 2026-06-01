@@ -382,7 +382,7 @@ def tab_periodi(db, bm_name, rf):
     fig.update_xaxes(gridcolor="#21262D")
     st.plotly_chart(fig, use_container_width=True)
 
-    monthly = db["port_ret"].resample("M").apply(lambda x: (1+x).prod()-1)*100
+    monthly = db["port_ret"].resample("ME").apply(lambda x: (1+x).prod()-1)*100
     df_m = monthly.to_frame("ret")
     df_m["year"]  = df_m.index.year
     df_m["month"] = df_m.index.month
