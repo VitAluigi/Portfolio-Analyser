@@ -716,7 +716,7 @@ def main():
     st.markdown(f"""
     <h1 style='margin-bottom:4px'>Portfolio Analysis</h1>
     <p style='color:#8B949E;margin-top:0'>
-        {db.index[0].strftime('%d %b %Y')} → {db.index[-1].strftime('%d %b %Y')} &nbsp;·&nbsp;
+        {db.index[0].strftime('%d %b %Y')} -> {db.index[-1].strftime('%d %b %Y')} &nbsp;·&nbsp;
         {len(db)} giorni di borsa &nbsp;·&nbsp;
         Benchmark: <strong style='color:#58A6FF'>{bm_name}</strong> &nbsp;·&nbsp;
         RF: <strong style='color:#3FB950'>{rf:.2%}</strong> ({bm_info["rf_name"]})
