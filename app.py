@@ -616,7 +616,6 @@ def main():
 1. Carica un file Excel o CSV
 2. Mappa le colonne
 3. Scegli il benchmark nella pagina
-4. Analizza!
 
 **Formato atteso:**
 - Una colonna con le date
