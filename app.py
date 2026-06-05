@@ -602,6 +602,10 @@ def tab_montecarlo(db, etf_cols, rf):
 
 # MAIN
 def main():
+    pwd = st.text_input("Enter access password", type="password")
+    if pwd != st.secrets["password"]:
+        st.info("Enter the password to access the app. Request access via LinkedIn.")
+        st.stop()
     with st.sidebar:
         st.markdown("# Portfolio Analyzer")
         st.markdown("---")
