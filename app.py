@@ -577,7 +577,7 @@ def tab_montecarlo(db, etf_cols, rf):
         fig.update_layout(height=520, paper_bgcolor=C["surface"], plot_bgcolor=C["surface"],
             font=dict(family="Syne, sans-serif", size=10, color="#E6EDF3"),
             margin=dict(t=50,b=60,l=60,r=20),
-            title=dict(text=f"<b>Efficient Frontier — {len(results):,} simulations</b>", font=dict(size=14), x=0.02),
+            title=dict(text=f"<b>Efficient Frontier - {len(results):,} simulations</b>", font=dict(size=14), x=0.02),
             xaxis=dict(title="Volatility (%)", ticksuffix="%", gridcolor="#21262D"),
             yaxis=dict(title="Return (%)", ticksuffix="%", gridcolor="#21262D"),
             legend=dict(orientation="h", y=-0.15, x=0.5, xanchor="center"),
